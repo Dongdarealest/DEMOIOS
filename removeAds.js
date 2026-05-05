@@ -1,14 +1,16 @@
 try {
-  let obj = JSON.parse($response.body);
+  let body = $response.body;
 
-  // Xoá ads phổ biến
-  if (obj.ads) obj.ads = [];
-  if (obj.ad) obj.ad = null;
+  if (body && body[0] === "{") {
+    let obj = JSON.parse(body);
 
-  // Xoá tracking flag
-  if (obj.tracking) obj.tracking = false;
+    if (obj.ads) obj.ads = [];
+    if (obj.ad) obj.ad = null;
 
-  $done({ body: JSON.stringify(obj) });
+    $done({ body: JSON.stringify(obj) });
+  } else {
+    $done({});
+  }
 
 } catch (e) {
   $done({});
